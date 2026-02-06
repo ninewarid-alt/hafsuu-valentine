@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hafsuu 💕</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(160deg, #ff758c, #ff7eb3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        overflow: hidden;
+    }
+
+    .card {
+        width: 92%;
+        max-width: 380px;
+        background: white;
+        border-radius: 24px;
+        padding: 28px 22px 34px;
+        text-align: center;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        animation: fadeUp 0.7s ease;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+        margin: 0;
+        color: #e63946;
+        font-size: 26px;
+    }
+
+    p {
+        margin-top: 10px;
+        font-size: 18px;
+        color: #444;
+        line-height: 1.4;
+    }
+
+    .buttons {
+        margin-top: 30px;
+        position: relative;
+        height: 140px;
+    }
+
+    button {
+        width: 130px;
+        height: 50px;
+        border-radius: 999px;
+        border: none;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        position: absolute;
+        transition: all 0.25s ease;
+    }
+
+    #yes {
+        background: #ff4d6d;
+        color: white;
+        left: 50%;
+        transform: translateX(-110%);
+    }
+
+    #no {
+        background: #adb5bd;
+        color: white;
+        left: 50%;
+        transform: translateX(10%);
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .result h1 {
+        font-size: 28px;
+    }
+
+    .result p {
+        font-size: 19px;
+    }
+
+    .heart {
+        position: fixed;
+        top: -10px;
+        font-size: 24px;
+        animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+        to {
+            transform: translateY(110vh);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <h1>Hello Hafsuu 💕</h1>
+    <p>Will you be my Valentine? 💌</p>
+
+    <div class="buttons">
+        <button id="yes">Yes 💖</button>
+        <button id="no">No 🙈</button>
+    </div>
+</div>
+
+<div class="card result hidden" id="resultCard">
+    <h1>YAAAAYYYY!!! 🎉💖</h1>
+    <p>
+        Here are roses 🌹 and chocolates 🍫 <br>
+        just for you, Hafsa 💕
+    </p>
+    <p>You made my Valentine perfect 💘</p>
+</div>
+
+<audio id="yaySound">
+    <source src="https://www.soundjay.com/human/sounds/applause-8.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const mainCard = document.getElementById("mainCard");
+    const resultCard = document.getElementById("resultCard");
+    const yaySound = document.getElementById("yaySound");
+
+    function moveNoButton() {
+        const container = document.querySelector(".buttons");
+        const maxX = container.clientWidth - noBtn.clientWidth;
+        const maxY = container.clientHeight - noBtn.clientHeight;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+
+        let scale = yesBtn.style.transform.match(/scale\(([^)]+)\)/);
+        let currentScale = scale ? parseFloat(scale[1]) : 1;
+        yesBtn.style.transform = `scale(${Math.min(currentScale + 0.1, 1.6)})`;
+    }
+
+    noBtn.addEventListener("touchstart", moveNoButton);
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+        mainCard.classList.add("hidden");
+        resultCard.classList.remove("hidden");
+        yaySound.play();
+        startHearts();
+    });
+
+    function startHearts() {
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.textContent = "💖";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }, 250);
+    }
+</script>
+
+</body>
+</html>
+
